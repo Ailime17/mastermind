@@ -12,12 +12,14 @@ class ReversedMastermind
           puts "Please type your choice like this (pick 4 colors from the available 6 colors): \ng p y b"
           @choice = gets.strip.split
       end
-  
+      @comp = Array.new(4, '0')
       12.times do
         @computer = @@all_colors.shuffle.first(4)
+        @computer = @comp unless @comp.include?('0')
         @correct_colors = 0
         @correct_placements = 0
         if @computer == @choice
+            puts "Computer's colors: <#{@computer.join(", ")}>"
             puts "You lost! Computer guessed correctly"
             @correct_placements = 4
             break
@@ -28,13 +30,14 @@ class ReversedMastermind
           end
           if @choice.index(user_color) == @computer.index(user_color)
             @correct_placements += 1
+       @comp.insert((@computer.index(user_color)+1),user_color)
+       @comp.delete_at(@computer.index(user_color))
           end
         end
         puts "Computer's colors: <#{@computer.join(", ")}>"
         puts "Computer guessed correctly #{@correct_colors} colors! #{@correct_placements} of those colors were in the right place!"
       end
       puts @correct_placements == 4 ? "End Game" : "End Game. You won! Computer didn't guess correctly!"
-      
     end
   end
   
